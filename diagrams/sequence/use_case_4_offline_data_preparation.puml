@@ -1,0 +1,52 @@
+@startuml Offline Data Preparation Flow
+
+title Use Case 4 - Offline Data Collection and Preparation
+
+autonumber
+skinparam sequenceMessageAlign center
+skinparam ParticipantPadding 25
+skinparam BoxPadding 10
+skinparam ResponseMessageBelowArrow true
+
+participant "Scheduler" as Scheduler
+participant "Offline Source Collector" as Collector
+database "Trademark DB" as DB
+participant "External Sources" as Sources
+participant "Raw Staging" as Staging
+participant "Naming Preprocessing" as Preprocess
+participant "Embedding Model" as Model
+participant "Search Index Builder" as IndexBuilder
+database "Preprocessed Naming Store" as Preprocessed
+database "Embedding Dataset" as Dataset
+database "Search Indexes" as Indexes
+database "External Source Store" as External
+
+Scheduler -> Collector: Start scheduled update
+
+Collector -> DB: Read latest trademark records
+DB --> Collector: Trademark raw data
+
+Collector -> Sources: Fetch external source data
+Sources --> Collector: Raw external records
+
+Collector -> Staging: Save raw data snapshot
+
+Collector -> Preprocess: Clean and normalize raw namings
+Preprocess --> Collector: Canonical namings\n+ removable elements removed
+
+Collector -> Preprocessed: Save prepared namings
+
+Collector -> Model: Generate embeddings for prepared namings
+Model --> Collector: Embedding vectors
+Collector -> Dataset: Save or refresh embedding dataset
+
+Collector -> IndexBuilder: Build phonetic, text\nand vector indexes
+IndexBuilder --> Collector: Fresh indexes
+Collector -> Indexes: Publish new indexes
+
+Collector -> External: Save prepared external source names
+
+Collector --> Scheduler: Update completed
+
+@enduml
+

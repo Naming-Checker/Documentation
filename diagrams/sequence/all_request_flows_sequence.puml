@@ -1,0 +1,181 @@
+@startuml Registration Check Flow
+
+title Use Case 1 - Registration Check for a New Naming
+
+autonumber
+skinparam sequenceMessageAlign center
+skinparam ParticipantPadding 25
+skinparam BoxPadding 10
+skinparam ResponseMessageBelowArrow true
+
+actor Lawyer
+participant "REST API" as API
+participant "Text Check Service" as TextService
+participant "Naming Preprocessing" as Preprocess
+participant "Embedding Model" as Model
+participant "Embedding Dataset" as Dataset
+participant "Search Indexes" as Indexes
+database "Trademark DB" as DB
+database "External Source Store" as External
+participant "Similarity Engine" as Similarity
+participant "Ranking Engine" as Ranking
+
+Lawyer -> API: Submit naming + Nice classes
+API -> API: Validate request
+API -> TextService: Start registration check
+
+TextService -> Preprocess: Normalize input naming
+Preprocess --> TextService: Canonical naming
+
+TextService -> DB: Filter candidates by Nice classes
+DB --> TextService: Candidate ids from trademark DB
+
+par Semantic search
+  TextService -> Model: Generate embedding for input naming
+  Model --> TextService: Query embedding
+  TextService -> Dataset: Find nearest semantic candidates
+  Dataset --> TextService: Semantic shortlist
+else Phonetic and text search
+  TextService -> Indexes: Search by phonetic and text keys
+  Indexes --> TextService: Phonetic/text shortlist
+else External channels
+  TextService -> External: Search prepared external sources
+  External --> TextService: External shortlist
+end
+
+TextService -> TextService: Merge candidate pools
+
+loop For each candidate
+  TextService -> Similarity: Calculate detailed similarity features
+  Similarity --> TextService: Semantic, phonetic,\ntext, graphic and legal features
+end
+
+TextService -> Ranking: Build final similarity percentage\nand sort results
+Ranking --> TextService: Top-200 ranked conflicts
+
+TextService --> API: Registration check result
+API --> Lawyer: Conflict list + similarity percentages
+
+@enduml
+
+@startuml Text Infringement Check Flow
+
+title Use Case 2 - Text Infringement Check
+
+autonumber
+skinparam sequenceMessageAlign center
+skinparam ParticipantPadding 25
+skinparam BoxPadding 10
+skinparam ResponseMessageBelowArrow true
+
+actor Lawyer
+participant "REST API" as API
+participant "Text Check Service" as TextService
+participant "Naming Preprocessing" as Preprocess
+participant "Similarity Engine" as Similarity
+
+Lawyer -> API: Submit protected naming\n+ suspicious naming
+API -> API: Validate request
+API -> TextService: Start text infringement check
+
+TextService -> Preprocess: Normalize protected naming
+Preprocess --> TextService: Canonical protected naming
+
+TextService -> Preprocess: Normalize suspicious naming
+Preprocess --> TextService: Canonical suspicious naming
+
+TextService -> Similarity: Compare the two namings
+Similarity --> TextService: Detailed similarity scores\n+ final similarity percentage
+
+TextService --> API: Pairwise comparison result
+API --> Lawyer: Similarity percentage\n+ explanation of matches
+
+@enduml
+
+@startuml Logo Comparison Flow
+
+title Use Case 3 - Logo Infringement Check (Optional)
+
+autonumber
+skinparam sequenceMessageAlign center
+skinparam ParticipantPadding 25
+skinparam BoxPadding 10
+skinparam ResponseMessageBelowArrow true
+
+actor Lawyer
+participant "REST API" as API
+participant "Logo Check Service" as LogoService
+participant "Logo Preprocessing" as LogoPreprocess
+participant "Logo Feature Extractor" as FeatureExtractor
+participant "Visual Similarity Engine" as VisualSimilarity
+
+Lawyer -> API: Submit reference logo\n+ suspicious logo
+API -> API: Validate request
+API -> LogoService: Start logo comparison
+
+LogoService -> LogoPreprocess: Normalize both logo files
+LogoPreprocess --> LogoService: Prepared visual inputs
+
+LogoService -> FeatureExtractor: Extract visual features\nand text-inside-logo if available
+FeatureExtractor --> LogoService: Feature vectors
+
+LogoService -> VisualSimilarity: Compare logos
+VisualSimilarity --> LogoService: Visual similarity\n+ final similarity percentage
+
+LogoService --> API: Logo comparison result
+API --> Lawyer: Similarity percentage\n+ visual comparison summary
+
+@enduml
+
+@startuml Offline Data Preparation Flow
+
+title Use Case 4 - Offline Data Collection and Preparation
+
+autonumber
+skinparam sequenceMessageAlign center
+skinparam ParticipantPadding 25
+skinparam BoxPadding 10
+skinparam ResponseMessageBelowArrow true
+
+participant "Scheduler" as Scheduler
+participant "Offline Source Collector" as Collector
+database "Trademark DB" as DB
+participant "External Sources" as Sources
+participant "Raw Staging" as Staging
+participant "Naming Preprocessing" as Preprocess
+participant "Embedding Model" as Model
+participant "Search Index Builder" as IndexBuilder
+database "Preprocessed Naming Store" as Preprocessed
+database "Embedding Dataset" as Dataset
+database "Search Indexes" as Indexes
+database "External Source Store" as External
+
+Scheduler -> Collector: Start scheduled update
+
+Collector -> DB: Read latest trademark records
+DB --> Collector: Trademark raw data
+
+Collector -> Sources: Fetch external source data
+Sources --> Collector: Raw external records
+
+Collector -> Staging: Save raw data snapshot
+
+Collector -> Preprocess: Clean and normalize raw namings
+Preprocess --> Collector: Canonical namings\n+ removable elements removed
+
+Collector -> Preprocessed: Save prepared namings
+
+Collector -> Model: Generate embeddings for prepared namings
+Model --> Collector: Embedding vectors
+Collector -> Dataset: Save or refresh embedding dataset
+
+Collector -> IndexBuilder: Build phonetic, text\nand vector indexes
+IndexBuilder --> Collector: Fresh indexes
+Collector -> Indexes: Publish new indexes
+
+Collector -> External: Save prepared external source names
+
+Collector --> Scheduler: Update completed
+
+@enduml
+

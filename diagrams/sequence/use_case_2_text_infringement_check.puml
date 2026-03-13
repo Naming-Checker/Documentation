@@ -1,0 +1,34 @@
+@startuml Text Infringement Check Flow
+
+title Use Case 2 - Text Infringement Check
+
+autonumber
+skinparam sequenceMessageAlign center
+skinparam ParticipantPadding 25
+skinparam BoxPadding 10
+skinparam ResponseMessageBelowArrow true
+
+actor Lawyer
+participant "REST API" as API
+participant "Text Check Service" as TextService
+participant "Naming Preprocessing" as Preprocess
+participant "Similarity Engine" as Similarity
+
+Lawyer -> API: Submit protected naming\n+ suspicious naming
+API -> API: Validate request
+API -> TextService: Start text infringement check
+
+TextService -> Preprocess: Normalize protected naming
+Preprocess --> TextService: Canonical protected naming
+
+TextService -> Preprocess: Normalize suspicious naming
+Preprocess --> TextService: Canonical suspicious naming
+
+TextService -> Similarity: Compare the two namings
+Similarity --> TextService: Detailed similarity scores\n+ final similarity percentage
+
+TextService --> API: Pairwise comparison result
+API --> Lawyer: Similarity percentage\n+ explanation of matches
+
+@enduml
+
