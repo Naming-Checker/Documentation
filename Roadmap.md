@@ -20,7 +20,7 @@ This roadmap outlines the remaining work for the NamingChecker project, a tradem
 | **3. Orchestrator & API** | - Build orchestrator (candidate retrieval, scoring, ranking)<br>- Develop REST API (FastAPI) with authentication<br>- Implement caching (Redis) and request queueing<br>- Integrate external searcher (pre-indexed data) | Apr 21, 2026 | May 12, 2026 | Deployable API with all endpoints documented |
 | **4. Frontend (Streamlit)** | - Create user interface for name queries, logo uploads<br>- Visualise results with similarity breakdowns<br>- Add filters (MKTU classes, threshold, max results)<br>- Connect to backend API | May 13, 2026 | May 27, 2026 | Interactive demo ready for internal testing |
 | **5. Testing & Validation** | - Accuracy testing: 500 query names annotated by legal experts → measure Precision@200, Recall<br>- Performance testing: simulate 10 concurrent users, measure 95th percentile response time (<2 min)<br>- Regression testing: ensure no degradation after changes | May 28, 2026 | Jun 15, 2026 | Test report + final similarity weights (≥85% precision) |
-| **6. Deployment & Documentation** | - Containerize all components (Docker)<br>- Prepare Kubernetes manifests<br>- Set up monitoring (Prometheus/Grafana) and logging (ELK)<br>- Write user manual + technical docs | Jun 16, 2026 | Jun 30, 2026 | Production-ready system deployed on internal GPU cluster |
+| **6. Deployment & Documentation** | - Containerize all components (Docker)<br>- Set up monitoring (Prometheus/Grafana) and logging (ELK)<br>- Write user manual + technical docs | Jun 16, 2026 | Jun 30, 2026 | Production-ready system deployed on internal GPU cluster |
 
 ---
 
