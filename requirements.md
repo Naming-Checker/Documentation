@@ -37,3 +37,23 @@
 - Keep requirement statements atomic and testable; avoid combined items that mix business behavior and implementation detail.
 - Mark conflicting updates as `Pending Clarification` and do not merge them into baseline requirements until resolved.
 - For each approved update, revise only affected requirement bullets and run a full consistency pass across all three sections.
+
+## MoSCoW Prioritization
+
+- Prioritization source: `Documentation/MoSCoW.md`.
+
+### Must Have
+
+- M1-M12 from `Documentation/MoSCoW.md` are mandatory for current target scope.
+
+### Should Have
+
+- S1-S2 from `Documentation/MoSCoW.md` are planned after Must scope stabilization.
+
+### Could Have
+
+- C1 from `Documentation/MoSCoW.md` is optional quality improvement.
+
+### Won't Have (Current Iteration)
+
+- W1 from `Documentation/MoSCoW.md` is explicitly out of current iteration.
