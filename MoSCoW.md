@@ -2,102 +2,102 @@
 
 ## Must Have
 
-### M1. Модель визуального сходства логотипов (image-to-image)
-- Разработка модели сравнения двух изображений логотипов.
-- На вход - два изображения, на выход - процент визуального сходства.
-- Критерии из ТЗ: общее зрительное впечатление, цвет/цветовое сочетание, форма, композиция.
-- Комбинированные обозначения (изобразительный + текстовый элемент).
-- Локальная модель (без внешних запросов, требование внутренней сети МТС).
-- Приоритет N1 по указанию заказчика.
+### M1. Logo visual similarity model (image-to-image)
+- Develop a model to compare two logo images.
+- Input: two images; output: visual similarity percentage.
+- Criteria from requirements: overall visual impression, color/color combination, shape, composition.
+- Support combined marks (visual + text element).
+- Local model only (no external calls, internal MTS network requirement).
+- Priority #1 per stakeholder direction.
 
-### M2. Предобработка текстовых наименований из БД
-- Парсинг и нормализация "грязных" полей наименований (извлечение чистого названия из описательного текста).
-- Удаление цифр и чисел, не имеющих характерного графического исполнения.
-- Удаление общепринятых аббревиатур (ОАО, ООО, Ltd, GmbH и т.д.).
-- Использование поля `mark_disclaimer` для удаления неохраняемых элементов.
-- Удаление простых указаний товаров/услуг (родовые и видовые наименования).
+### M2. Preprocessing of text naming records from the database
+- Parse and normalize "dirty" naming fields (extract clean naming from descriptive text).
+- Remove digits and numbers without distinctive graphic execution.
+- Remove common abbreviations (OJSC, LLC, Ltd, GmbH, etc.).
+- Use `mark_disclaimer` to remove non-protectable elements.
+- Remove generic product/service descriptors (generic and category terms).
 
-### M3. Фонетическое (звуковое) сходство текстовых наименований
-- Реализация модели/алгоритма фонетического сравнения.
-- Критерии из ТЗ: совпадающие звуки, близость звуков, расположение звукосочетаний, совпадающие слоги, число слогов, состав гласных/согласных, вхождение одного обозначения в другое, ударение.
-- Учет транслитерации (кириллица <-> латиница).
-- Учет искажения орфографии (ELLASTIC -> ELASTIC).
+### M3. Phonetic (sound) similarity for text namings
+- Implement a model/algorithm for phonetic comparison.
+- Requirements criteria: matching sounds, sound proximity, position of sound clusters, matching syllables, syllable count, vowel/consonant composition, containment of one mark in another, stress.
+- Handle transliteration (Cyrillic <-> Latin).
+- Handle spelling distortions (ELLASTIC -> ELASTIC).
 
-### M4. Семантическое (смысловое) сходство текстовых наименований
-- Реализация модели/алгоритма семантического сравнения.
-- Критерии: подобие понятий/идей, совпадение значений в разных языках, совпадение ключевого элемента с самостоятельным значением.
-- Учет противоположности понятий.
-- Учет того, что однокоренные слова с разным смысловым значением не являются сходными (Лесное != Лесник).
+### M4. Semantic (meaning) similarity for text namings
+- Implement a model/algorithm for semantic comparison.
+- Criteria: similarity of concepts/ideas, cross-language meaning alignment, matching key element with independent meaning.
+- Account for opposite concepts.
+- Account for cases where same-root words with different meanings are not similar.
 
-### M5. Текстовые метрики сходства
-- Реализация сравнения по текстовым метрикам (строковое сходство).
-- Учет вхождения одного наименования в начало другого (PROBI -> PROBIMAX).
+### M5. Text similarity metrics
+- Implement string-based text similarity metrics.
+- Account for prefix containment (PROBI -> PROBIMAX).
 
-### M6. Итоговая формула процента сходства (текстовый нейминг)
-- Объединение результатов фонетического, семантического и текстового сходства в единый процент.
-- Формула определяется по результатам тестирования.
+### M6. Final similarity score formula (text naming)
+- Combine phonetic, semantic, and text similarity into a single percentage.
+- Final formula is determined from testing results.
 
-### M7. Поиск по базе товарных знаков
-- Фильтрация по классам МКТУ.
-- Выдача 200 наиболее схожих наименований с процентом сходства.
+### M7. Trademark database search
+- Filter by Nice classes (MKTU).
+- Return top-200 most similar namings with similarity percentage.
 
-### M8. Проверка на неправомерное использование (текст)
-- Сравнение нейминга с одним заданным текстовым наименованием -> процент сходства.
+### M8. Infringement check (text)
+- Compare naming with one target text naming -> similarity percentage.
 
-### M9. Проверка на неправомерное использование (логотип)
-- Сравнение существующего логотипа с возможным нарушением -> процент визуального сходства.
-- Использует модель из M1.
+### M9. Infringement check (logo)
+- Compare existing logo with potential infringement -> visual similarity percentage.
+- Uses model from M1.
 
-### M10. Формализация метрик качества и составление тестового датасета
-- Определение, что именно считается "сходством": совместно с экспертами (юристами) формулируются пары сходных и несходных кейсов.
-- Составление размеченного тестового датасета: пары наименований и пары логотипов с экспертной разметкой (сходны / не сходны / пограничный случай).
-- Определение метрик: accuracy, precision, recall, F1 и целевых порогов для каждой.
-- Определение, что входит в "200 выданных" и как считается доля верных совпадений.
-- Датасет используется на всем протяжении проекта для валидации каждого модуля.
+### M10. Quality metric formalization and test dataset creation
+- Define what is considered "similarity": align with experts (legal team) on positive and negative pairs.
+- Build labeled test dataset: naming pairs and logo pairs with expert labels (similar / not similar / borderline).
+- Define metrics: accuracy, precision, recall, F1, and target thresholds.
+- Define what is included in "top-200 output" and how correct-match share is measured.
+- Use this dataset throughout the project to validate each module.
 
-### M11. Внешний веб-интерфейс для пользователей
-- Минимальный UI для выдачи результатов.
+### M11. External web interface for users
+- Minimal UI for result delivery.
 
-### M12. Нефункциональные требования
-- Accuracy >= x% (конкретное определение - по результатам M10).
-- Время отклика < 2 минут.
-- Развертывание на GPU NVIDIA A100 PCIe 80GB.
-- Все модели - локальные, без запросов во внешний интернет.
-- Docker-контейнеризация.
+### M12. Non-functional requirements
+- Accuracy >= x% (final definition based on M10).
+- Response time < 2 minutes.
+- Deployment on NVIDIA A100 PCIe 80GB GPU.
+- All models must be local, with no external internet calls.
+- Docker containerization.
 
 ## Should Have
 
-### S1. Поиск по интернет-источникам (названия продуктов, тарифов, произведений)
-- Парсинг реестров: РАО (российские и зарубежные правообладатели), Минкультуры (фильмы), Роскомнадзор (СМИ).
-- Поиск по: Яндекс Видео, Яндекс Музыка, Кинопоиск, YouTube, Rutube, Google Книги, Яндекс Поиск.
-- Агрегация в единый список из 200 наиболее релевантных совпадений.
+### S1. Search across internet sources (product names, tariffs, works)
+- Parse registries: RAO (Russian and international rights holders), Ministry of Culture (films), Roskomnadzor (media).
+- Search across: Yandex Video, Yandex Music, Kinopoisk, YouTube, Rutube, Google Books, Yandex Search.
+- Aggregate into a single top-200 most relevant match list.
 
-### S2. Графическое сходство словесных обозначений (текст как изображение)
-- Учет вида шрифта, регистра букв (заглавные/строчные, печатные/письменные).
-- Учет расположения букв, алфавита, цвета.
-- Учет случая, когда оригинальное графическое исполнение текста превращает его в изобразительное обозначение.
+### S2. Graphic similarity of word marks (text as image)
+- Account for font type and letter case (uppercase/lowercase, print/cursive).
+- Account for character placement, alphabet, and color.
+- Account for cases where original text styling turns word marks into figurative marks.
 
 ## Could Have
 
-### C1. Расширенная предобработка edge cases
-- Обработка сложных случаев: неологизмы, составные слова, метафорические названия.
-- Фильтрация описательных элементов, не несущих различительной способности, из контекста (не только из `mark_disclaimer`).
+### C1. Extended preprocessing for edge cases
+- Handle complex cases: neologisms, compound words, metaphorical namings.
+- Filter descriptive non-distinctive elements from broader context (not only from `mark_disclaimer`).
 
-## Won't Have (не в текущей итерации)
+## Won't Have (not in current iteration)
 
-### W1. Вывод конкретных нарушений по товарному знаку
+### W1. Output of explicit trademark violation determinations
 
-## Порядок реализации (рекомендуемый)
+## Implementation Order (recommended)
 
-| Этап | Задачи | Обоснование |
+| Stage | Tasks | Rationale |
 |------|--------|-------------|
-| 1 | M1 (визуальное сходство логотипов) + M10 (тестовый датасет и метрики) | Приоритет заказчика + без тестов нельзя валидировать качество |
-| 2 | M2 (предобработка данных) | Блокирует все текстовые сравнения |
-| 3 | M3, M4, M5 (фонетика, семантика, текстовые метрики) | Ядро текстового сравнения, можно параллелить |
-| 4 | M6 (итоговая формула) | Зависит от результатов этапа 3 |
-| 5 | M7, M8, M9 (поиск по БД, проверка нарушений текст + логотип) | Интеграция моделей с данными |
-| 6 | M11 (веб-интерфейс) | Минимальный UI для выдачи результатов |
-| 7 | M12 (нефункциональные требования, Docker, GPU) | Финальная обвязка, деплой |
-| 8 | S1 (парсинг интернет-источников) | Расширение покрытия |
-| 9 | S2 (графическое сходство словесных обозначений) | Доработка текстового сравнения |
-| 10 | C1 (расширенная предобработка edge cases) | Улучшение качества |
+| 1 | M1 (logo visual similarity) + M10 (test dataset and metrics) | Stakeholder priority + quality cannot be validated without test baseline |
+| 2 | M2 (data preprocessing) | Blocks all text similarity modules |
+| 3 | M3, M4, M5 (phonetics, semantics, text metrics) | Core text similarity stack, can be parallelized |
+| 4 | M6 (final formula) | Depends on stage 3 outputs |
+| 5 | M7, M8, M9 (DB search, text/logo infringement checks) | Integration of models with data and API |
+| 6 | M11 (web interface) | Minimal UI for result delivery |
+| 7 | M12 (non-functional requirements, Docker, GPU) | Final deployment hardening |
+| 8 | S1 (internet source parsing) | Coverage expansion |
+| 9 | S2 (graphic similarity for word marks) | Text similarity enhancement |
+| 10 | C1 (extended preprocessing edge cases) | Quality improvement |
