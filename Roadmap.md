@@ -39,11 +39,11 @@ Build an internal MTS service for automated similarity checks of names and logos
 |------|-------|--------|--------|
 | Weeks 1-2 | **M10**: Formalize quality metrics - define with experts what is considered "similar", which metrics are used (accuracy/precision/recall/F1), and target thresholds | ML + Legal | Metrics and thresholds specification document |
 | Weeks 1-2 | **M10**: Build labeled test dataset - logo and naming pairs with expert labels (similar / not similar / borderline) | ML | Test dataset v1 (minimum for visual model validation) |
-| Weeks 1-2 | **M1**: Improve visual model - select final architecture and benchmark on test dataset | ML | Baseline with metrics on new dataset |
+| Weeks 1-2 | **M1**: Improve visual model - select final architecture and benchmark on test dataset | ML + Ilya Pechersky (architecture) | Baseline with metrics on new dataset |
 | Weeks 1-2 | **M2**: Analyze DB data and implement naming preprocessing parser | Backend | Parser v1 + data quality statistics |
 | Weeks 3-4 | **M10**: Extend test dataset - add text naming pairs for phonetic/semantic validation | ML | Test dataset v2 (text + images) |
 | Weeks 3-4 | **M1**: Fine-tune visual model and validate on DB data | ML | Model with accuracy >= 80% on test set |
-| Weeks 3-4 | **M2**: Improve parser - remove numbers, abbreviations, and non-protectable elements (`mark_disclaimer`) | Backend | Parser v2 with primary edge case coverage |
+| Weeks 3-4 | **M2**: Improve parser - remove numbers, abbreviations, and non-protectable elements (`mark_disclaimer`) | Backend + Vladimir Ryabenko (backend) | Parser v2 with primary edge case coverage |
 
 **Milestone:** test dataset is ready and labeled, metrics are formalized, visual model reaches target test accuracy, and preprocessing is stable.
 
@@ -55,10 +55,10 @@ Build an internal MTS service for automated similarity checks of names and logos
 |------|-------|--------|--------|
 | Weeks 1-2 | **M3**: Phonetic similarity - algorithm, transliteration, spelling distortion handling | ML/NLP | Phonetic similarity module v1 |
 | Weeks 1-2 | **M4**: Semantic similarity - model and multilingual support | ML/NLP | Semantic similarity module v1 |
-| Weeks 1-2 | **M9**: Visual model integration - API for comparing two logos | ML + Backend | Working logo infringement endpoint |
-| Weeks 3-4 | **M5**: Text metrics (string similarity, prefix containment) | Backend | Text metrics module v1 |
+| Weeks 1-2 | **M9**: Visual model integration - API for comparing two logos | ML + Backend + Ilya Pecherskiy (backend) | Working logo infringement endpoint |
+| Weeks 3-4 | **M5**: Text metrics (string similarity, prefix containment) | Ilya Pecherskiy (backend) | Text metrics module v1 |
 | Weeks 3-4 | **M6**: Final aggregation formula (phonetic + semantic + text) | ML/NLP | Unified text similarity metric v1 |
-| Weeks 3-4 | **M7**: PostgreSQL search - MKTU filtering, top-200 output | Backend | End-to-end DB search is operational |
+| Weeks 3-4 | **M7**: PostgreSQL search - MKTU filtering, top-200 output | Ilya Pecherskiy (backend) | End-to-end DB search is operational |
 
 **Milestone (end of June):** text naming pipeline works end-to-end (input -> top-200 with similarity score), and visual model is integrated into API.
 
@@ -68,12 +68,12 @@ Build an internal MTS service for automated similarity checks of names and logos
 
 | Week | Tasks | Owners | Result |
 |------|-------|--------|--------|
-| Weeks 1-2 | **M8**: Text infringement check - compare with one target naming | Backend | Working text infringement endpoint |
-| Weeks 1-2 | **M12**: Dockerization and deployment setup for A100 | DevOps/Backend | Docker image and CI/CD pipeline |
+| Weeks 1-2 | **M8**: Text infringement check - compare with one target naming | Backend + Ilya Pecherskiy (backend) | Working text infringement endpoint |
+| Weeks 1-2 | **M12**: Dockerization and deployment setup for A100 | DevOps/Backend + Ilya Pecherskiy (architecture/backend) | Docker image and CI/CD pipeline |
 | Weeks 1-2 | Quality testing of all modules on real data | Whole team | Accuracy report and improvement plan |
 | Weeks 3-4 | Model refinement based on test results | ML | Target accuracy across modules |
-| Weeks 3-4 | **M11**: Web interface - minimal UI for result delivery | Backend | Working UI for text and logos |
-| Weeks 3-4 | Response-time optimization (< 2 min) | Backend + ML | Latency measurements and optimizations |
+| Weeks 3-4 | **M11**: Web interface - minimal UI for result delivery | Frontend | Working UI for text and logos |
+| Weeks 3-4 | Response-time optimization (< 2 min) | Backend + ML + Ilya Pecherskiy (backend) | Latency measurements and optimizations |
 
 **Milestone (end of July):** MVP is ready - all Must Have tasks are implemented, target accuracy is reached, response time is below 2 minutes, Docker image is built, and UI is operational.
 
@@ -83,8 +83,8 @@ Build an internal MTS service for automated similarity checks of names and logos
 
 | Week | Tasks | Owners | Result |
 |------|-------|--------|--------|
-| Weeks 1-2 | **S1**: External source parsing (RAO, Ministry of Culture, Roskomnadzor, Kinopoisk, Yandex, etc.) | Backend | External source parser v1 |
-| Weeks 1-2 | **S2**: Graphic similarity for word marks (font, case, color) | ML/Backend | Word-mark graphic similarity module v1 |
+| Weeks 1-2 | **S1**: External source parsing (RAO, Ministry of Culture, Roskomnadzor, Kinopoisk, Yandex, etc.) | Backend + Vladimir Ryabenko (backend) | External source parser v1 |
+| Weeks 1-2 | **S2**: Graphic similarity for word marks (font, case, color) | ML/Backend + Ilya Pecherskiy (backend) | Word-mark graphic similarity module v1 |
 | Weeks 1-2 | Load testing and bug fixing | Whole team | Stable build |
 | Weeks 1-3 | Buffer for improvements, edge cases, final stabilization | Whole team | Release candidate |
 
