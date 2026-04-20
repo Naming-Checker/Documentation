@@ -14,20 +14,18 @@ Build an internal MTS service for automated similarity checks of names and logos
 | External source parsing | RAO / Ministry of Culture / Roskomnadzor registries, search and media sources | Low |
 | Web interface | Minimal UI for presenting results | High (Must Have) |
 
-## 3. Assumptions and Risks
+## 3. Key Risks
 
-### Assumptions
-- NVIDIA A100 80GB GPU is available for experiments and deployment.
-- Access to the PostgreSQL trademark database is available.
-- Initial visual model experiments are already completed and a baseline exists.
+Probability is assessed on a three-level scale (Low / Medium / High) based on current team experience and available information. Each risk has an explicit owner who is responsible for monitoring the risk, triggering the mitigation plan, and escalating to the PM if the situation changes.
 
-### Key Risks
-
-| Risk | Impact | Mitigation |
-|------|--------|------------|
-| Quality metrics are not formalized, no strict accuracy definition | High | Run M10 in first two weeks of May: align with legal experts on similarity criteria, labeled dataset, and target metrics |
-| Low visual model accuracy | High | Early testing on real data and iterative architecture tuning |
-| Unpredictable external data formats | Medium | Iterative parser improvement |
+| Risk | Probability | Impact | Owner | Mitigation |
+|------|-------------|--------|-------|------------|
+| Quality metrics are not formalized, no strict accuracy definition | High | High | Daria (PM) | Run M10 as highest priority |
+| Low visual model accuracy | Medium | High | Alex | Early testing on real data; try existing solutions. If all fails, document and postpone |
+| Low text similarity quality (phonetics / semantics) | Medium | High | Daniel | Benchmark several algorithms, tune early on real data |
+| Unpredictable external data formats | High | Medium | Vladimir, Ilya | Iterative parser; isolate behind adapters |
+| Backend architecture / integration issues (DB, API, services) | Medium | High | Ilya | Early architecture review, integration tests with the DB |
+| Delay of dev environment with GPUs and DB | High | High | Daria (PM) | Escalate early |
 
 ## 4. Roadmap
 
@@ -37,13 +35,12 @@ Build an internal MTS service for automated similarity checks of names and logos
 
 | Week | Tasks | Owners | Result |
 |------|-------|--------|--------|
-| Weeks 1-2 | **M10**: Formalize quality metrics - define with experts what is considered "similar", which metrics are used (accuracy/precision/recall/F1), and target thresholds | ML + Legal | Metrics and thresholds specification document |
-| Weeks 1-2 | **M10**: Build labeled test dataset - logo and naming pairs with expert labels (similar / not similar / borderline) | ML | Test dataset v1 (minimum for visual model validation) |
-| Weeks 1-2 | **M1**: Improve visual model - select final architecture and benchmark on test dataset | ML + Ilya Pechersky (architecture) | Baseline with metrics on new dataset |
-| Weeks 1-2 | **M2**: Analyze DB data and implement naming preprocessing parser | Backend | Parser v1 + data quality statistics |
-| Weeks 3-4 | **M10**: Extend test dataset - add text naming pairs for phonetic/semantic validation | ML | Test dataset v2 (text + images) |
-| Weeks 3-4 | **M1**: Fine-tune visual model and validate on DB data | ML | Model with accuracy >= 80% on test set |
-| Weeks 3-4 | **M2**: Improve parser - remove numbers, abbreviations, and non-protectable elements (`mark_disclaimer`) | Backend + Vladimir Ryabenko (backend) | Parser v2 with primary edge case coverage |
+| Weeks 1-2 | **M10**: Formalize quality metrics - define with experts what is considered "similar", which metrics are used (accuracy/precision/recall/F1), and target thresholds | Daria | Metrics and thresholds specification document |
+| Weeks 1-2 | **M10**: Build labeled test dataset - logo and naming pairs with expert labels (similar / not similar / borderline) | Daniel (text), Alex (logos) | Test dataset v1 (minimum for visual model validation) |
+| Weeks 1-2 | **M1**: Improve visual model - select final architecture and benchmark on test dataset | Alex | Baseline with metrics on new dataset |
+| Weeks 1-2 | **M2**: Analyze DB data and implement naming preprocessing parser | Ilya | Parser v1 + data quality statistics |
+| Weeks 3-4 | **M1**: Fine-tune visual model and validate on DB data | Alex | Model with accuracy >= 80% on test set |
+| Weeks 3-4 | **M2**: Improve parser - remove numbers, abbreviations, and non-protectable elements (`mark_disclaimer`) | Ilya | Parser v2 with primary edge case coverage |
 
 **Milestone:** test dataset is ready and labeled, metrics are formalized, visual model reaches target test accuracy, and preprocessing is stable.
 
@@ -53,12 +50,10 @@ Build an internal MTS service for automated similarity checks of names and logos
 
 | Week | Tasks | Owners | Result |
 |------|-------|--------|--------|
-| Weeks 1-2 | **M3**: Phonetic similarity - algorithm, transliteration, spelling distortion handling | ML/NLP | Phonetic similarity module v1 |
-| Weeks 1-2 | **M4**: Semantic similarity - model and multilingual support | ML/NLP | Semantic similarity module v1 |
-| Weeks 1-2 | **M9**: Visual model integration - API for comparing two logos | ML + Backend + Ilya Pecherskiy (backend) | Working logo infringement endpoint |
-| Weeks 3-4 | **M5**: Text metrics (string similarity, prefix containment) | Ilya Pecherskiy (backend) | Text metrics module v1 |
-| Weeks 3-4 | **M6**: Final aggregation formula (phonetic + semantic + text) | ML/NLP | Unified text similarity metric v1 |
-| Weeks 3-4 | **M7**: PostgreSQL search - MKTU filtering, top-200 output | Ilya Pecherskiy (backend) | End-to-end DB search is operational |
+| Weeks 1-2 | **M3**: Phonetic / semantic similarity | Daniel | Similarity module |
+| Weeks 1-2 | **M9**: Visual model integration - API for comparing two logos | Alex + Ilya | Working logo infringement endpoint |
+| Weeks 3-4 | **M6**: Final aggregation formula (phonetic + semantic + text) | Daniel | Unified text similarity metric |
+| Weeks 3-4 | **M7**: PostgreSQL search - MKTU filtering, top-200 output | Ilya | End-to-end DB search is operational |
 
 **Milestone (end of June):** text naming pipeline works end-to-end (input -> top-200 with similarity score), and visual model is integrated into API.
 
@@ -68,12 +63,12 @@ Build an internal MTS service for automated similarity checks of names and logos
 
 | Week | Tasks | Owners | Result |
 |------|-------|--------|--------|
-| Weeks 1-2 | **M8**: Text infringement check - compare with one target naming | Backend + Ilya Pecherskiy (backend) | Working text infringement endpoint |
-| Weeks 1-2 | **M12**: Dockerization and deployment setup for A100 | DevOps/Backend + Ilya Pecherskiy (architecture/backend) | Docker image and CI/CD pipeline |
-| Weeks 1-2 | Quality testing of all modules on real data | Whole team | Accuracy report and improvement plan |
-| Weeks 3-4 | Model refinement based on test results | ML | Target accuracy across modules |
-| Weeks 3-4 | **M11**: Web interface - minimal UI for result delivery | Frontend | Working UI for text and logos |
-| Weeks 3-4 | Response-time optimization (< 2 min) | Backend + ML + Ilya Pecherskiy (backend) | Latency measurements and optimizations |
+| Weeks 1-2 | **M8**: Text infringement check - compare with one target naming | Vladimir | Working text infringement endpoint |
+| Weeks 1-2 | **M12**: Dockerization and deployment setup for A100 | Vladimir (lead) + Ilya | Docker image and CI/CD pipeline |
+| Weeks 1-2 | Quality testing of all modules on real data | Ilya, Vladimir (lead, backend), Daniel (text models), Alex (visual), Daria (product review) | Accuracy report and improvement plan |
+| Weeks 3-4 | Model refinement based on test results | Daniel (text), Alex (visual) | Target accuracy across modules |
+| Weeks 3-4 | **M11**: Web interface - minimal UI for result delivery | Vladimir | Working UI for text and logos |
+| Weeks 3-4 | Response-time optimization (< 2 min) | Ilya | Latency measurements and optimizations |
 
 **Milestone (end of July):** MVP is ready - all Must Have tasks are implemented, target accuracy is reached, response time is below 2 minutes, Docker image is built, and UI is operational.
 
@@ -83,22 +78,35 @@ Build an internal MTS service for automated similarity checks of names and logos
 
 | Week | Tasks | Owners | Result |
 |------|-------|--------|--------|
-| Weeks 1-2 | **S1**: External source parsing (RAO, Ministry of Culture, Roskomnadzor, Kinopoisk, Yandex, etc.) | Backend + Vladimir Ryabenko (backend) | External source parser v1 |
-| Weeks 1-2 | **S2**: Graphic similarity for word marks (font, case, color) | ML/Backend + Ilya Pecherskiy (backend) | Word-mark graphic similarity module v1 |
-| Weeks 1-2 | Load testing and bug fixing | Whole team | Stable build |
-| Weeks 1-3 | Buffer for improvements, edge cases, final stabilization | Whole team | Release candidate |
+| Weeks 1-2 | **S1**: External source parsing (RAO, Ministry of Culture, Roskomnadzor, Kinopoisk, Yandex, etc.) | Vladimir + Ilya | External source parser v1 |
+| Weeks 1-2 | **S2**: Graphic similarity for word marks (font, case, color) | Alex + Ilya | Word-mark graphic similarity module v1 |
+| Weeks 1-2 | Load testing and bug fixing | Vladimir (lead), whole team for bug fixing | Stable build |
+| Weeks 1-3 | Buffer for improvements, edge cases, final stabilization | Daria (review) | Release candidate |
 
 **Milestone (mid-August):** full release with external sources, word-mark graphic similarity, and stabilized production version.
 
 ## 5. Role Allocation
 
-| Role | Focus | Allocation |
-|------|-------|------------|
-| ML Engineer #1 | Logo visual model (M1, M9), test dataset (M10) | Full load in May, then support and optimization |
-| ML/NLP Engineer #2 | Phonetics, semantics, final formula (M3, M4, M6) | Full load in June, refinement in July |
-| Backend Engineer #3 | Preprocessing, text metrics, DB search, API (M2, M5, M7, M8) | Continuous from May to August |
-| Backend Engineer #4 | UI (M11), external parsers (S1), word-mark graphics (S2) | July to August |
-| DevOps / Backend #5 | Docker, deployment, CI/CD, monitoring (M12) | July to August |
+The team consists of five people. Each person has a primary area of responsibility plus secondary duties. Documentation and quality/testing are explicit roles assigned to specific team members so that these activities are not forgotten.
+
+| Person | Primary role | Areas of responsibility | Allocation |
+|--------|--------------|-------------------------|------------|
+| Daria | Project Manager | Project management and planning; overall documentation ownership (structure, completeness, review); evaluation of product state and progress against the roadmap; risk monitoring; communication with legal experts and stakeholders | Continuous from May to August |
+| Daniel | ML/NLP Engineer + Documentation | Phonetic and text similarity (M3, M5, M6); model evaluation and metric definition (M10, test datasets); reviewing documentation | Full load in May (metrics and datasets) and June (text pipeline), refinement in July |
+| Alex | ML Engineer (Visual) | Logo visual similarity model (M1), visual infringement API (M9), word-mark graphic similarity (S2) | Full load in May, then support, optimization and S2 in August |
+| Ilya | Backend Engineer + Architecture | Backend architecture and integration decisions; data preprocessing (M2); PostgreSQL search (M7); API design; architecture of the documentation (structure of repos, ADRs, how docs are organized) | Continuous from May to August |
+| Vladimir | Backend Engineer + Quality | Backend implementation (M8, M11, S1); quality assurance: test planning, writing and running integration/load tests, bug triage; Dockerization and CI/CD (M12) | Continuous from May to August |
+
+### Cross-cutting responsibilities
+
+| Responsibility | Lead | Support |
+|----------------|------|---------|
+| Documentation (content) | Daria | Daniel (review, structure), all team members (their own modules) |
+| Documentation (architecture, repo layout) | Ilya | Daria |
+| Product state evaluation | Daria | Daniel (model metrics), Vladimir (quality reports) |
+| Testing of models (accuracy, metrics) | Alex, Daniel | Alex (visual), Daniel (text), Daria (expert validation) |
+| Testing of backend and end-to-end (integration, load, UI) | Ilya | Vladimir |
+| Risk monitoring | Daria (PM) | Each risk owner |
 
 ## 6. Checkpoints
 
