@@ -66,7 +66,7 @@ Quality activities happen continuously:
 - **ML Engineer №1 (Alexander)** — logo model quality and visual similarity evaluation.
 - **ML/NLP Engineer №2 (Daniel)** — phonetic, semantic, and final text-score quality.
 - **Backend Engineer №1 (Ilya)** — API, preprocessing, text metrics, DB search, integration quality.
-- **Backend Engineer №2 (Rafael)** — searching and parsing.
+- **Backend Engineer №2 (Vladimir)** — searching and parsing.
 - **PM / Analyst (Daria)** — requirements consistency, acceptance alignment, stakeholder validation.
 - **Whole team** — review, regression prevention, release readiness.
 
