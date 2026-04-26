@@ -53,7 +53,7 @@ Quality gates are marked 🛡️.
 4. Evaluate accuracy on labelled logo pairs  
 🛡️ **Gates:** Same CI + evaluation gates as text module; model metrics reviewed against baseline.
 
-### Vladimir – Backend Core
+### Ilya – Backend Core
 1. FastAPI project skeleton, Dockerfile, CI/CD pipeline  
 2. PostgreSQL / ClickHouse schema for pre‑computed embeddings and raw data  
 3. Implement `/check‑registration` endpoint (text + logo flow)  
@@ -62,7 +62,7 @@ Quality gates are marked 🛡️.
 6. Integration tests for all endpoints with test database  
 🛡️ **Gates:** All API contracts must match approved architecture; integration tests cover both success and error paths; latency of DB query + scoring measured and kept < 2 min.
 
-### Ilya – External Source Integration
+### Vladımir – External Source Integration
 1. Build parsers for 11 external sources (Google Play, App Store, RAO, MinCulture, etc.) – **unit tests per parser**  
 2. Aggregator service that returns top‑200 relevant names from a given query  
 3. Ensure offline data freshness (update mechanism without runtime internet access)  
@@ -99,7 +99,7 @@ Quality gates are marked 🛡️.
 - Tidy up `README.md`, `configuration_management.md`, and roadmaps  
 - Archive final reports (testing report, metric baselines, demo feedback)  
 
-### Vladimir
+### Ilya
 - Final deployment on internal A100 GPU, network‑isolated environment  
 
 ### Final Quality Gates
