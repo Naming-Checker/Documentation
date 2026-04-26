@@ -5,8 +5,8 @@
 |-----------------|---------------------------|----------------------------------------------------------|
 | Alexander       | Visual similarity model   | Logo model quality & visual similarity evaluation        |
 | Daniel          | Text similarity model     | Phonetic, semantic & final text‑score quality            |
-| Vladimir        | Backend & infrastructure  | API, preprocessing, text metrics, DB search, CI/CD       |
-| Ilya            | Integrations & parsing    | External‑source parsing quality & data freshness         |
+| Ilya        | Backend & infrastructure  | API, preprocessing, text metrics, DB search, CI/CD       |
+| Vladimir            | Integrations & parsing    | External‑source parsing quality & data freshness         |
 | Daria           | Documentation & PM        | Requirements consistency, acceptance alignment, stakeholder demos |
 
 ## Quality Activities Embedded in the Plan
