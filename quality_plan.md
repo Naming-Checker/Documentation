@@ -43,6 +43,32 @@ Quality is embedded into the normal workflow:
 - CI gates run before merge and deployment;
 - quality results are reviewed during planning, evaluation, and release decisions.
 
+### Living quality process (who triggers what)
+This section describes the *operational* quality loop: who initiates activities, what artifacts are produced, and how decisions are made.
+
+#### Cadence and triggers
+- **Per commit / before push** (author): run Gate 0 checks locally (format/lint/typecheck) and fix findings before requesting review.
+- **Per pull request** (author + reviewer): Gate 1 must pass; reviewers check the PR against the checklist; defects are logged/returned to author for fix.
+- **Per model or dataset change** (ML owner + backend): run ML regression evaluation and compare to baseline; if regression is detected, open a defect and block Gate 2 until resolved or explicitly accepted.
+- **Per release candidate / demo** (release owner): run Gate 2 suite (quality regression + latency + isolation); record evidence in release notes (or equivalent internal artifact).
+- **Post-deploy** (on-call / whole team): monitor Gate 3 signals; create incidents/defects when thresholds are exceeded and decide rollback/hotfix.
+
+#### Responsibility
+R = Responsible (does the work), A = Accountable (final decision), C = Consulted, I = Informed.
+
+| Activity / decision | R | A | C | I |
+|---|---|---|---|---|
+| Update requirements baseline ([requirements.md](requirements.md)) | PM/Analyst | PM/Analyst | Team | Stakeholders |
+| Gate 0 (local lint/typecheck) | PR author | PR author | — | Reviewer |
+| Gate 1 (PR CI + review) | PR author | Reviewer (merge approval) | Team | PM/Analyst |
+| Unit/integration tests for backend changes | Backend engineer | Backend engineer | Reviewer | Team |
+| E2E validation for critical flows | Backend engineer | Release owner | PM/Analyst | Team |
+| ML quality regression vs baseline | ML engineer (module owner) | ML engineer (module owner) | Backend | Team |
+| Latency regression investigation | Backend engineer | Release owner | ML | Team |
+| Isolation / “no external internet” verification | Backend engineer | Release owner | DevOps/Infra (if available) | Team |
+| Defect triage and priority | Whole team | PM/Analyst | Stakeholders | Team |
+| Release go/no-go | Release owner | Release owner | PM/Analyst + module owners | Stakeholders |
+
 ## 3. Artifacts
 Quality activities cover:
 - backend code;
@@ -106,6 +132,19 @@ Quality effort is planned as part of delivery:
 - milestone demos and acceptance review — part of roadmap checkpoints.
 
 The largest quality effort is allocated to preprocessing, similarity accuracy, and latency, because these are the main project risks.
+
+### Practical effort budgeting (typical, per PR / per release)
+These are **planning** estimates to make the cost visible; actuals are tracked during execution and used to adjust the plan.
+
+- **Gate 0 (local checks + fix)**: ~5–20 min per PR (more if large refactor).
+- **Code review + defect fix loop**: review ~15–40 min; author fix/retest ~15–60 min depending on findings.
+- **Unit/integration tests authoring**: ~30–120 min per feature/bugfix, depending on DB/async complexity.
+- **E2E validation for critical flows**: ~30–90 min per release candidate (smoke + critical scenarios).
+- **ML regression evaluation** (text or logo): ~30–120 min per model/dataset change (run + compare + analyze errors).
+- **Latency validation**: ~30–90 min per release candidate on representative environment.
+- **Isolation validation**: ~15–45 min per release candidate (environment-dependent).
+
+Decision rule: if Gate 2 repeatedly consumes more than ~0.5–1 engineer-day per release, the team prioritizes automation and/or narrows the gate to the highest-risk scenarios while keeping mandatory thresholds.
 
 ## 8. Tools
 Commands below are run from the **backend** service root (where `Makefile` and `pyproject.toml` live). Config anchors refer to [backend/pyproject.toml](../backend/pyproject.toml), [backend/Makefile](../backend/Makefile), and [backend/.github/workflows/pull-request-ci.yml](../backend/.github/workflows/pull-request-ci.yml).
@@ -180,6 +219,47 @@ flowchart LR
     Gate2 --> Deploy[Internal deploy]
     Deploy --> Gate3["Gate 3: Runtime monitoring"]
 ```
+
+### Defect lifecycle (how defects flow)
+All findings (from CI, tests, reviews, monitoring, or ML evaluation) are treated as defects with a clear owner and status.
+
+```mermaid
+flowchart LR
+    Finding[Finding_detected] --> Triage[Triage_and_classify]
+    Triage -->|blocking| Block[Block_merge_or_release]
+    Triage -->|nonBlocking| Backlog[Backlog_item]
+    Block --> Fix[Assign_owner_and_fix]
+    Fix --> Verify[Verify_with_repro_steps]
+    Verify --> Close[Close_with_evidence]
+    Backlog --> PlanFix[Plan_in_roadmap]
+    PlanFix --> Fix
+```
+
+**Classification rules**:
+- **Blocking (must fix before merge/release)**: CI required checks fail; critical flow broken; regression vs agreed ML baseline; latency budget violated; isolation violated; security high-severity (when scanner enabled).
+- **Non-blocking**: minor style nits, low-risk refactors, documentation improvements, performance optimizations without SLA breach — tracked as backlog with owner.
+
+**Required defect fields** (in issue tracker or PR thread): reproduction steps, expected vs actual, severity, owner, link to evidence (logs, CI run, eval report), and closure criteria.
+
+## Evidence of execution (what was actually done)
+This QP is a plan, but it must be backed by reproducible evidence. Current project evidence artifacts include:
+- **CI pipeline** running `make ci` on pull requests: [backend/.github/workflows/pull-request-ci.yml](../backend/.github/workflows/pull-request-ci.yml).
+- **Quality commands** and targets: [backend/Makefile](../backend/Makefile).
+- **Lint/type/test configuration**: [backend/pyproject.toml](../backend/pyproject.toml) (`[tool.ruff]`, `[tool.mypy]`, `[tool.pytest.ini_options]`, coverage config).
+- **Documented quality objectives and scenarios**: [quality_management.md](quality_management.md).
+- **Baseline requirements**: [requirements.md](requirements.md).
+
+How to reproduce evidence locally (backend):
+- Run `make ci` to reproduce the PR required checks.
+- Run `make test` for local test execution with coverage reporting configured in `pyproject.toml`.
+
+## SQR lessons applied (from practice to IPP)
+The IPP QP is not a generic template: it was adapted to real constraints and risks that were not present in the practice project.
+
+- **From “toy latency” to staged SLA**: instead of generic HTTP P95 thresholds, the plan uses staged targets (Stage 1 P95/P99, Stage 2 SLA, full-query budget) aligned with ML + DB workloads.
+- **From “unit tests only” to multi-layer V&V**: explicit split into unit, integration, E2E, ML regression, latency, and isolation testing, because failures can originate in models, DB, async delivery, or infrastructure constraints.
+- **From “one gate” to tiered gates with entry/exit**: Gate 0–3 make clear where defects are caught, who acts, and what blocks merge vs release vs triggers monitoring.
+- **From “code-only quality” to process quality**: RACI + defect lifecycle are included so the defense can explain who triggers what and how defects flow, not just list tools and thresholds.
 
 ### Gate 0 — Pre-commit (developer machine)
 - **When:** Before every push or share of a branch.
