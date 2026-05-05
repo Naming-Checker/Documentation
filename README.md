@@ -19,3 +19,12 @@
 - **Machine Learning**: PyTorch, Transformers, FAISS, OpenCV
 - **Infrastructure**: Docker, NVIDIA A100 GPU, internal network
 
+## Test stand integration note
+
+On the test stand, similarity search for logos and text runs through separate CPU sidecars:
+
+- `visual-model-service` for `POST /api/v1/logo-similarity/search`
+- `text-model-service` for `POST /api/v1/text-similarity/search`
+
+Both sidecars use precomputed artifacts mounted from host directories and are reached internally by the backend over Docker network. The production target architecture with GPU and data stores remains documented in the broader architecture materials.
+
