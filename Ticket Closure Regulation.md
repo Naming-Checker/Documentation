@@ -28,11 +28,10 @@ Before a ticket is placed in the backlog or assigned to a sprint, it **must** me
 | 3 | **Steps to Reproduce** (for bugs) | Exact steps, input data, environment, and actual vs. expected behaviour. Attach logs or screenshots if helpful. |
 | 4 | **Acceptance Criteria (AC)** | A checklist of specific, measurable conditions that must be met for the ticket to be considered done (e.g., "User can upload file up to 10MB", "Inference latency < 200ms"). |
 | 5 | **Definition of "Done"** | A clear statement of what the final deliverable looks like (e.g., a merged PR, a deployed model, updated docs). |
-| 6 | **Priority / Severity** | Must be labelled (e.g., `P0` – critical, `P1` – high, `P2` – medium, `P3` – low) so the team knows the urgency. |
-| 7 | **Assignee** | The ticket must be assigned to one specific person (Daniel, Alexandr, Ilya, or Vladimir). Unassigned tickets are not picked up. |
-| 8 | **Sprint / Milestone** | The ticket must be linked to an active sprint or milestone (unless it's a backlog refinement item). |
-| 9 | **Dependencies** | Clearly list any external dependencies (e.g., "Requires API endpoint from service X", "Depends on ticket #123"). If a dependency is missing, link to that ticket. |
-| 10 | **Labels / Type** | Tag the ticket type: `Bug`, `Feature`, `Task`, `Research`, `DevOps`, `Documentation`. |
+| 6 | **Assignee** | The ticket must be assigned to one specific person (Daniel, Alexandr, Ilya, or Vladimir). Unassigned tickets are not picked up. |
+| 7 | **Sprint / Milestone** | The ticket must be linked to an active sprint or milestone (unless it's a backlog refinement item). |
+| 8 | **Dependencies** | Clearly list any external dependencies (e.g., "Requires API endpoint from service X", "Depends on ticket #123"). If a dependency is missing, link to that ticket. |
+| 9 | **Labels / Type** | Tag the ticket type: `Bug`, `Feature`, `Task`, `Research`, `DevOps`, `Documentation`. |
 
 > **If the ticket does not meet these criteria**, the assignee has the right to reject it and send it back to the Manager (Daria) or the original reporter for refinement before starting work.
 
