@@ -29,6 +29,8 @@ Probability is assessed on a three-level scale (Low / Medium / High) based on cu
 
 ## 4. Roadmap
 
+The detailed execution baseline for 1 June–26 July is maintained in the [June–July 2026 Strategic Plan](Strategic/Strategic_Plan_June-July_2026.md). GitHub issues, current statuses, estimates, and actual effort are tracked on the [Tasks board](https://github.com/orgs/Naming-Checker/projects/3).
+
 ### May 2026
 
 **Focus: visual model + data preprocessing + test dataset and metrics**
@@ -46,31 +48,29 @@ Probability is assessed on a three-level scale (Low / Medium / High) based on cu
 
 ### June 2026
 
-**Focus: three text similarity modules + visual model integration with search**
+**Focus: technical foundation, observability, model development, and integrated product demo**
 
-| Week | Tasks | Owners | Result |
-|------|-------|--------|--------|
-| Weeks 1-2 | **M3**: Phonetic / semantic similarity | Daniel | Similarity module |
-| Weeks 1-2 | **M9**: Visual model integration - API for comparing two logos | Alex + Ilya | Working logo infringement endpoint |
-| Weeks 3-4 | **M6**: Final aggregation formula (phonetic + semantic + text) | Daniel | Unified text similarity metric |
-| Weeks 3-4 | **M7**: PostgreSQL search - MKTU filtering, top-200 output | Ilya | End-to-end DB search is operational |
+| Period | Sprint / milestone | Main tasks | Result |
+|--------|--------------------|------------|--------|
+| 1–13 June | Sprint 1 / MS1 | ELK, application logging, APM, Yandex Video/Music scrapers, text research and datasets, visual evaluation dataset | Observable services, initial source coverage, and reproducible model inputs |
+| 14–20 June | Sprint 2 / MS1 | Indices and retention, Grafana, scraper webhook, text extraction and preprocessing, visual evaluation and fine-tuning | Operational monitoring, integrated scraper execution, and model baseline |
+| 21–28 June | Sprint 3 / MS2 | Unified service metrics, dashboards as code, frontend integration, LaBSE, visual fine-tuning, MoSP demo | Integrated and demonstrable product increment |
+| 29–30 June | Sprint 4 / MS3 begins | Alerting, source expansion, and visual quality experiments | Quality and performance-readiness work started |
 
-**Milestone (end of June):** text naming pipeline works end-to-end (input -> top-200 with similarity score), and visual model is integrated into API.
+**Milestone (28 June):** MS1 and MS2 are complete: the test stand is observable, scraper and frontend flows are integrated, model increments are measurable, and the product increment has been demonstrated.
 
 ### July 2026
 
-**Focus: module consolidation, quality testing, and non-functional targets**
+**Focus: quality, performance validation, model optimization, and release readiness**
 
-| Week | Tasks | Owners | Result |
-|------|-------|--------|--------|
-| Weeks 1-2 | **M8**: Text infringement check - compare with one target naming | Vladimir | Working text infringement endpoint |
-| Weeks 1-2 | **M12**: Dockerization and deployment setup for A100 | Vladimir (lead) + Ilya | Docker image and CI/CD pipeline |
-| Weeks 1-2 | Quality testing of all modules on real data | Ilya, Vladimir (lead, backend), Daniel (text models), Alex (visual), Daria (product review) | Accuracy report and improvement plan |
-| Weeks 3-4 | Model refinement based on test results | Daniel (text), Alex (visual) | Target accuracy across modules |
-| Weeks 3-4 | **M11**: Web interface - minimal UI for result delivery | Vladimir | Working UI for text and logos |
-| Weeks 3-4 | Response-time optimization (< 2 min) | Ilya | Latency measurements and optimizations |
+| Period | Sprint / milestone | Main tasks | Result |
+|--------|--------------------|------------|--------|
+| 1–5 July | Sprint 4 / MS3 | Alerting, YouTube scraper, font and color research, dataset expansion, stakeholder feedback | Broader source coverage and measurable visual-quality inputs |
+| 6–12 July | Sprint 5 / MS3 | Load-test goals, infrastructure and scenarios, resilient Yandex scraping, ranking and color-comparison improvements | Reproducible load-test setup and quality improvements |
+| 13–19 July | Sprint 6 / MS4 | Baseline load test, bottleneck analysis, Google Books, text-noise analysis, visual fine-tuning and channel integration | Performance baseline and prioritized optimization work |
+| 20–26 July | Sprint 7 / MS4 | Repeated load test, scraping quality, text optimization, visual weight balancing, final reporting | Comparative metrics and release-ready project materials |
 
-**Milestone (end of July):** MVP is ready - all Must Have tasks are implemented, target accuracy is reached, response time is below 2 minutes, Docker image is built, and UI is operational.
+**Milestone (26 July):** MS3 and MS4 are complete: model and scraper quality improvements are measured, baseline and repeated load-test reports are available, bottlenecks are addressed or documented, and final delivery materials trace results to evidence.
 
 ### August 2026
 
@@ -113,6 +113,8 @@ The team consists of five people. Each person has a primary area of responsibili
 | Date | Event | Success Criteria |
 |------|-------|------------------|
 | End of May | Test dataset ready + visual model demo | Labeled dataset (logos + text); visual model accuracy >= 80% |
-| End of June | Text naming demo | End-to-end flow: input -> top-200 matches |
-| End of July | **MVP** | All Must Have items (M1-M12) completed, target accuracy, <2 min latency, Docker, UI |
+| 20 June | **MS1 — Foundation and observability** | Observable services, model datasets and preprocessing, integrated scraper execution |
+| 28 June | **MS2 — Integrated product demo** | Frontend and services integrated, unified monitoring available, model increment demonstrated |
+| 12 July | **MS3 — Quality and performance readiness** | Alerting and quality extensions delivered; documented load-test environment and scenarios runnable |
+| 26 July | **MS4 — Optimization and release readiness** | Baseline and repeated measurements, final model and scraping improvements, report and presentation ready |
 | Mid-August | **Full Release** | Plus external sources (S1), word-mark graphics (S2), stabilization |
