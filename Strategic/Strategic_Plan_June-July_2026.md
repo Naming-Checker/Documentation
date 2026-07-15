@@ -168,11 +168,11 @@ MS4 closes on 26 July if Sprint 6–7 work is complete and the final materials l
 
 | Area | Planned issues | Expected result | Status |
 |------|----------------|-----------------|--------|
-| Performance | [Backend #76](https://github.com/Naming-Checker/Backend/issues/76), [Backend #77](https://github.com/Naming-Checker/Backend/issues/77) | Baseline report and prioritized bottlenecks | In progress / To Do |
-| Scraping | [Backend #83](https://github.com/Naming-Checker/Backend/issues/83) | Google Books scraper integrated | In progress |
-| Text model | [#17](https://github.com/Naming-Checker/TextModel/issues/17) | Main sources of ranking noise identified | To Do |
-| Visual model | [#13](https://github.com/Naming-Checker/VisualModel/issues/13), [#24](https://github.com/Naming-Checker/VisualModel/issues/24), [#29](https://github.com/Naming-Checker/VisualModel/issues/29) | Font integration, fine-tuned model, combined color channel | In progress / To Do |
-| Project management | [#11](https://github.com/Naming-Checker/Documentation/issues/11) | Plan, customer feedback, and backlog synchronized | In progress |
+| Performance | [Backend #76](https://github.com/Naming-Checker/Backend/issues/76), [Backend #77](https://github.com/Naming-Checker/Backend/issues/77) | Baseline report and prioritized bottlenecks |
+| Scraping | [Backend #83](https://github.com/Naming-Checker/Backend/issues/83) | Google Books scraper integrated |
+| Text model | [#17](https://github.com/Naming-Checker/TextModel/issues/17) | Main sources of ranking noise identified |
+| Visual model | [#13](https://github.com/Naming-Checker/VisualModel/issues/13), [#24](https://github.com/Naming-Checker/VisualModel/issues/24), [#29](https://github.com/Naming-Checker/VisualModel/issues/29) | Font integration, fine-tuned model, combined color channel |
+| Project management | [#11](https://github.com/Naming-Checker/Documentation/issues/11) | Plan, customer feedback, and backlog synchronized |
 
 **Exit criterion:** all evidence is attached by 19 July; incomplete work is explicitly moved or marked `at-risk`.
 
