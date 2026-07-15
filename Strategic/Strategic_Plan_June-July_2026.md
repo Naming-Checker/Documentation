@@ -166,8 +166,8 @@ MS4 closes on 26 July if Sprint 6–7 work is complete and the final materials l
 **Objective:** establish the performance baseline and consolidate text, visual, and scraping quality work.  
 **Planned effort:** 98 h. **Status:** In progress on 15 July.
 
-| Area | Planned issues | Expected result | Status |
-|------|----------------|-----------------|--------|
+| Area | Planned issues | Expected result |
+|------|----------------|-----------------|
 | Performance | [Backend #76](https://github.com/Naming-Checker/Backend/issues/76), [Backend #77](https://github.com/Naming-Checker/Backend/issues/77) | Baseline report and prioritized bottlenecks |
 | Scraping | [Backend #83](https://github.com/Naming-Checker/Backend/issues/83) | Google Books scraper integrated |
 | Text model | [#17](https://github.com/Naming-Checker/TextModel/issues/17) | Main sources of ranking noise identified |
