@@ -23,13 +23,13 @@ The dates and estimates below come from the board, not from a reconstructed idea
 
 ## 3. Milestone Overview
 
-| Milestone | Period | Sprints | Planned effort | Main outcome | Status on 15 July |
-|-----------|--------|---------|----------------|--------------|-------------------|
-| MS1 — Foundation and observability | 1–20 June | 1–2 | 197 h | Observable test stand, preprocessing, initial model and scraper capabilities | Completed |
-| MS2 — Integrated product demo | 21–28 June | 3 | 90 h | Integrated frontend and services, metrics, model improvements, stakeholder demo | Completed |
-| MS3 — Quality and performance readiness | 29 June–12 July | 4–5 | 182 h | Quality extensions, resilient scraping, alerting, and load-test readiness | Completed |
-| MS4 — Optimization and release readiness | 13–26 July | 6–7 | 192 h | Measured baseline, optimized models and scraping, final reporting | In progress |
-| **Total** | **1 June–26 July** | **1–7** | **661 h** | **Release-ready increment with measured results** | **On track; Sprint 6 active** |
+| Milestone | Period | Sprints | Planned effort | Main outcome |
+|-----------|--------|---------|----------------|--------------|
+| MS1 — Foundation and observability | 1–20 June | 1–2 | 197 h | Observable test stand, preprocessing, initial model and scraper capabilities |
+| MS2 — Integrated product demo | 21–28 June | 3 | 90 h | Integrated frontend and services, metrics, model improvements, stakeholder demo |
+| MS3 — Quality and performance readiness | 29 June–12 July | 4–5 | 182 h | Quality extensions, resilient scraping, alerting, and load-test readiness |
+| MS4 — Optimization and release readiness | 13–26 July | 6–7 | 192 h | Measured baseline, optimized models and scraping, final reporting | 
+| **Total** | **1 June–26 July** | **1–7** | **661 h** | **Release-ready increment with measured results** |
 
 ## 4. How the sprints are grouped
 
