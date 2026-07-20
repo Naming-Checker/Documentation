@@ -344,10 +344,12 @@ The final report (due by 26 July) must trace each strategic result to its GitHub
 
 | Layer | Components |
 | :--- | :--- |
-| **ML Models** | Text similarity — `namecheck` package: string + phonetic (G2P → IPA articulatory alignment) + containment + semantic (LaBSE) channels, two‑stage search over 2.7 M aliases with deterministic tie‑breaking; benchmarked at 92.6% accuracy@200; grid‑search calibration and garbage filtering planned (#19, #17). **[OWNER: Daniel]** Visual similarity (VGG16 + color, fine‑tuned, combined). **[OWNER: Alexander]** Font identification — research prototype (`FontModel`, embedding‑based retrieval); accuracy below the production bar, integration cancelled. **[OWNER: Alexander, Daniel]** |
+| **Text Model** | `namecheck` package: string + phonetic (G2P → IPA articulatory alignment) + containment + semantic (LaBSE) channels; two‑stage search over 2.7 M aliases with deterministic tie‑breaking; benchmarked at 92.6% accuracy@200; grid‑search calibration and garbage filtering planned (#19, #17). **[OWNER: Daniel]** |
+| **Visual Model** | Visual similarity (VGG16 + color, fine‑tuned, combined). **[OWNER: Alexander]** |
+| **Font Model** | Research prototype (`FontModel`, embedding‑based retrieval); accuracy below the production bar, integration into the visual pipeline cancelled. **[OWNER: Alexander, Daniel]** |
 | **Backend** | FastAPI, PostgreSQL/ClickHouse, Docker, CI/CD (GitHub Actions). **[OWNER: Ilya]** |
 | **Parsers** | 11 external sources (Yandex, Google Play, App Store, RAO, MinCulture, YouTube, Google Books, etc.), with resilience and health checks. **[OWNER: Vladimir]** |
 | **Frontend** | Minimal UI for registration and infringement checks. **[OWNER: Ilya]** |
 | **Observability** | ELK + Prometheus + Grafana, application logs, APM traces, alerting. **[OWNER: Ilya]** |
 | **Performance** | Load‑test scenarios, baseline and optimised metrics, bottleneck analysis. **[OWNER: Ilya, Daria]** |
-| **Documentation** | Requirements, architecture, tactical plan, strategic plan, user manual, similarity formula, final report. **[OWNER: Daria]** |
+| **Documentation** | Requirements, architecture, tactical plan, strategic plan, user manual, similarity formula, final report. **[OWNER: Daria]** 
