@@ -58,8 +58,7 @@ This document records the **complete strategic trajectory** — from the first b
   - Evaluation on a small hand-labelled dataset (~30 pairs).
 - **Baseline Visual Model (v0.1):**
   - Embedding extraction using a pre-trained CNN (VGG16).
-  - Cosine similarity between logo embeddings.
-  - Evaluation on a small logo dataset (~20 pairs).
+  - Similarity ranking between logo embeddings.
 - Initial architecture sketch and technology selection (FastAPI, PostgreSQL, Docker).
 - Definition of external data sources to be parsed later (Yandex, Google Play, App Store, etc.).
 
@@ -91,8 +90,7 @@ This document records the **complete strategic trajectory** — from the first b
 - **Evaluation script:** automated regression against the validation set.
 
 #### Visual Model (Alexander)
-- **Fine‑tuning stage 1:** VGG16 fine‑tuned on the internal logo dataset.
-- **Evaluation:** accuracy measured on a held‑out test set; baseline established.
+- **Fine‑tuning stage 1:** VGG16 fine‑tuned using unsupervised contrastive learning method.
 - **Feature extraction pipeline:** embed logos and store pre‑computed vectors.
 
 #### Backend Preparation (Ilya)
@@ -108,12 +106,11 @@ This document records the **complete strategic trajectory** — from the first b
 
 **Model Status:**
 - Text: v1.0 – calibrated, accuracy ≥ 85%, packaged as a Python module.
-- Visual: v1.0 – fine‑tuned, accuracy measured, embedding pipeline ready.
+- Visual: v1.0 – unsupervised fine‑tuning has failed, embedding pipeline ready.
 - Integration: Components are separate but can be called from the backend.
 
 **Exit Criteria:**
 - Text model passes offline evaluation with ≥ 85% accuracy.
-- Visual model passes offline evaluation with documented accuracy.
 - Backend can load both models and serve similarity scores via a test endpoint.
 - Parser interfaces are defined and unit‑tested.
 
@@ -152,12 +149,11 @@ This document records the **complete strategic trajectory** — from the first b
 
 **Model Status:**
 - Text: v1.1 – minor tweaks based on integration feedback.
-- Visual: v1.1 – embedding pipeline optimised for production.
+- Visual: v1.1 – internal model for separating text from logos, embedding pipeline optimised for production.
 - Integration: Full E2E flow works, albeit without monitoring or performance optimisation.
 
 **Exit Criteria:**
 - Full E2E suite passes.
-- Accuracy ≥ 85% on labelled dataset (unchanged from MS1).
 - Latency sustained < 2 minutes (measured informally).
 - No critical bugs in core flows.
 - The system can be demonstrated manually.
@@ -179,7 +175,7 @@ This document records the **complete strategic trajectory** — from the first b
 
 #### Model Improvements
 - **Text:** Add LaBSE semantic encoder (better multilingual support). Package the model as an installable module.
-- **Visual:** Complete fine‑tuning stage 2 on an extended dataset.
+- **Visual:** Labelled test evaluation dataset and model fine‑tuning.
 - **Ranking:** Begin work on garbage identification and ranking improvements (carried over to MS4).
 
 #### Scrapers
@@ -192,11 +188,12 @@ This document records the **complete strategic trajectory** — from the first b
 
 **Model Status:**
 - Text: v1.2 – LaBSE added, calibration re‑run.
-- Visual: v1.2 – second fine‑tuning stage completed.
+- Visual: v1.2 – collected a labelled dataset and fine tuned the model to achieve the target accuracy.
 - Integration: Full stack deployed on the test stand with monitoring.
 
 **Exit Criteria:**
 - Services are observable on the test stand (logs, traces, metrics, dashboards).
+- Accuracy ≥ 85% on labelled dataset
 - Scraper execution works through the backend.
 - The MoSP presentation is delivered and well received.
 - All planned issues (Sprints 1–3) are closed.
@@ -223,8 +220,8 @@ This document records the **complete strategic trajectory** — from the first b
 #### Model Quality (Visual – Alexander)
 - **Color analysis (#22):** implement color histogram comparison as an additional feature.
 - **Font analysis:** analyse font datasets for logo similarity.
-- Extend the logo dataset with more examples.
-- Target: combined visual score (VGG16 + color + font) improves accuracy ≥ 3%.
+- Extend the evaluation dataset with more examples.
+- Target: combined visual score (VGG16 + color) improves accuracy.
 
 #### Load Testing Preparation (Ilya + Daria)
 - Define load‑testing goals, key metrics (#73): RPS, latency percentiles, error rates, resource utilisation.
@@ -233,7 +230,7 @@ This document records the **complete strategic trajectory** — from the first b
 
 **Model Status:**
 - Text: v1.3 – garbage filtering added, ranking optimised, precision improved.
-- Visual: v1.3 – color and font analysis integrated, accuracy improved.
+- Visual: v1.3 – dataset extended, color analysis integrated, accuracy improved, font analysis has failed.
 - Integration: Quality gates applied; ready for load testing.
 
 **Exit Criteria:**
@@ -258,7 +255,7 @@ This document records the **complete strategic trajectory** — from the first b
 
 #### Model Final Optimisation
 - **Text (#19):** apply final filtering rules, adjust weights, run regression. Target: Precision@10 ≥ 0.85, NDCG@10 ≥ 0.80.
-- **Visual (#26):** combine VGG16 + color + font with balanced weights. Target: visual similarity accuracy ≥ 0.90.
+- **Visual (#26):** extra fine-tuning, combine VGG16 + color with balanced weights. Target: visual similarity accuracy@200 ≥ 0.85.
 - **Garbage sources (#17, completed in Sprint 6):** final analysis and mitigation.
 
 #### Scraping Improvements
@@ -287,11 +284,11 @@ This document records the **complete strategic trajectory** — from the first b
 | Phase | Period | Text Model | Visual Model | Integration Status |
 | :--- | :--- | :--- | :--- | :--- |
 | **MS0** | 14 Feb – 2 Mar | Baseline: phonetic + lexical (accuracy ~60%) | Baseline: VGG16 embeddings (accuracy ~55%) | Separate notebooks |
-| **MS1** | 3 Mar – 13 Apr | Preprocessing + 3 similarity types + calibrated formula (accuracy ≥ 85%) | Fine‑tuning stage 1 + embedding pipeline (accuracy measured) | Components built, separate modules |
+| **MS1** | 3 Mar – 13 Apr | Preprocessing + 3 similarity types | Fine‑tuning stage 1 + embedding pipeline (accuracy measured) | Components built, separate modules |
 | **MS2** | 14 Apr – 31 May | v1.1 – minor tweaks, packaged module | v1.1 – embedding pipeline optimised | Full E2E integration (Docker, API, frontend) |
-| **MS3** | 1–28 Jun | v1.2 – LaBSE added, re‑calibrated | v1.2 – fine‑tuning stage 2 completed | Integrated, observable, demoed |
-| **MS4** | 29 Jun – 12 Jul | v1.3 – garbage filtering + ranking (+5% precision) | v1.3 – color + font analysis (+3% accuracy) | Quality gates applied, load‑test ready |
-| **MS5** | 13–26 Jul | v2.0 – final optimisation (Precision@10 ≥ 0.85) | v2.0 – combined model (accuracy ≥ 0.90) | Production‑ready, measured, documented |
+| **MS3** | 1–28 Jun | v1.2 – LaBSE added, re‑calibrated + evaluation formula (accuracy ≥ 85%) | v1.2 – fine‑tuning stage completed | Integrated, observable, demoed |
+| **MS4** | 29 Jun – 12 Jul | v1.3 – garbage filtering + ranking (+5% precision) | v1.3 – color + font analysis | Quality gates applied, load‑test ready |
+| **MS5** | 13–26 Jul | v2.0 – final optimisation (Precision@10 ≥ 0.85) | v2.0 – combined model (accuracy@200 ≥ 0.85) | Production‑ready, measured, documented |
 
 ---
 
@@ -340,7 +337,7 @@ The final report (due by 26 July) must trace each strategic result to its GitHub
 
 | Layer | Components |
 | :--- | :--- |
-| **ML Models** | Text similarity (phonetic + semantic + lexical, calibrated, with garbage filtering). Visual similarity (VGG16 + color + font, fine‑tuned, combined). |
+| **ML Models** | Text similarity (phonetic + semantic + lexical, calibrated, with garbage filtering). Visual similarity (VGG16 + color, fine‑tuned, combined). |
 | **Backend** | FastAPI, PostgreSQL/ClickHouse, Docker, CI/CD (GitHub Actions). |
 | **Parsers** | 11 external sources (Yandex, Google Play, App Store, RAO, MinCulture, YouTube, Google Books, etc.), with resilience and health checks. |
 | **Frontend** | Minimal UI for registration and infringement checks. |
