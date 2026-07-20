@@ -19,11 +19,11 @@ This document records the **complete strategic trajectory** — from the first b
 
 ## 2. What We Need to Have by 26 July
 
-- The backend, frontend, text model, visual model, monitoring, and scrapers work together on the test stand.
-- Model changes are checked on repeatable datasets; reports include measured results rather than only implementation status.
-- The team completes the load-test sequence: goals, environment, scenarios, baseline, bottleneck analysis, changes, and a repeated run.
-- Final materials describe what was delivered, what did not fit, and which measurements support the conclusions.
-- Issues planned for the period have a final status. Completed issues also have actual `Effort` on the board.
+- The backend, frontend, text model, visual model, monitoring, and scrapers work together on the test stand. **[OWNER: Ilya, Vladimir, Daniel, Alexander]**
+- Model changes are checked on repeatable datasets; reports include measured results rather than only implementation status. **[OWNER: Daniel, Alexander]**
+- The team completes the load-test sequence: goals, environment, scenarios, baseline, bottleneck analysis, changes, and a repeated run. **[OWNER: Ilya, Daria]**
+- Final materials describe what was delivered, what did not fit, and which measurements support the conclusions. **[OWNER: Daria]**
+- Issues planned for the period have a final status. Completed issues also have actual `Effort` on the board. **[OWNER: All team members]**
 
 ---
 
@@ -50,17 +50,17 @@ This document records the **complete strategic trajectory** — from the first b
 **Objective:** Establish the project foundation, validate the core idea, and produce the first working prototypes of text and visual similarity.
 
 **Key Deliverables:**
-- Project repository structure and documentation templates.
-- Initial requirements and success criteria (what “good” similarity means).
-- **Baseline Text Model (v0.1):**
+- Project repository structure and documentation templates. **[OWNER: Daria]**
+- Initial requirements and success criteria (what “good” similarity means). **[OWNER: Daria, Daniel, Alexander]**
+- **Baseline Text Model (v0.1):** **[OWNER: Daniel]**
   - Phonetic similarity (Metaphone + Levenshtein).
   - Simple lexical matching (exact and partial matches).
   - Evaluation on a small hand-labelled dataset (~30 pairs).
-- **Baseline Visual Model (v0.1):**
+- **Baseline Visual Model (v0.1):** **[OWNER: Alexander]**
   - Embedding extraction using a pre-trained CNN (VGG16).
   - Similarity ranking between logo embeddings.
-- Initial architecture sketch and technology selection (FastAPI, PostgreSQL, Docker).
-- Definition of external data sources to be parsed later (Yandex, Google Play, App Store, etc.).
+- Initial architecture sketch and technology selection (FastAPI, PostgreSQL, Docker). **[OWNER: Ilya, Daria]**
+- Definition of external data sources to be parsed later (Yandex, Google Play, App Store, etc.). **[OWNER: Vladimir, Daria]**
 
 **Model Status:**
 - Text: Raw prototypes, no preprocessing, low accuracy (~60%).
@@ -68,9 +68,9 @@ This document records the **complete strategic trajectory** — from the first b
 - Integration: None – separate Jupyter notebooks.
 
 **Exit Criteria:**
-- Both baseline models produce measurable similarity scores.
-- The team agrees on the acceptance criteria for “valid similarity”.
-- A clear plan exists for the next phase (preprocessing, feature engineering, and integration).
+- Both baseline models produce measurable similarity scores. **[VERIFIED BY: Daniel, Alexander]**
+- The team agrees on the acceptance criteria for “valid similarity”. **[VERIFIED BY: Daria + All team]**
+- A clear plan exists for the next phase (preprocessing, feature engineering, and integration). **[OWNER: Daria]**
 
 ---
 
@@ -80,7 +80,7 @@ This document records the **complete strategic trajectory** — from the first b
 
 **Key Deliverables:**
 
-#### Text Model (Daniel)
+#### Text Model **[OWNER: Daniel]**
 - **Preprocessing pipeline:** normalisation, digit/abbreviation removal, disclaimer handling, tokenisation.
 - **Phonetic similarity:** Russian Metaphone + Levenshtein distance (unit‑tested).
 - **Semantic similarity:** RoSBERTa embeddings + cosine similarity (unit‑tested).
@@ -89,17 +89,17 @@ This document records the **complete strategic trajectory** — from the first b
 - **Calibration:** weights tuned on a labelled dataset (≥50 pairs) to reach **accuracy ≥ 85%**.
 - **Evaluation script:** automated regression against the validation set.
 
-#### Visual Model (Alexander)
+#### Visual Model **[OWNER: Alexander]**
 - **Fine‑tuning stage 1:** VGG16 fine‑tuned using unsupervised contrastive learning method.
 - **Feature extraction pipeline:** embed logos and store pre‑computed vectors.
 
-#### Backend Preparation (Ilya)
+#### Backend Preparation **[OWNER: Ilya]**
 - FastAPI project skeleton.
 - Dockerfile and basic CI/CD pipeline (GitHub Actions).
 - PostgreSQL schema for storing embeddings and raw data.
 - Pre‑processing service that calls Daniel’s pipeline.
 
-#### Parser Research (Vladimir)
+#### Parser Research **[OWNER: Vladimir]**
 - Investigate 11 external sources (Yandex, Google Play, App Store, RAO, MinCulture, etc.).
 - Design a common parser interface.
 - Build **unit tests** for each parser (mock responses).
@@ -110,9 +110,9 @@ This document records the **complete strategic trajectory** — from the first b
 - Integration: Components are separate but can be called from the backend.
 
 **Exit Criteria:**
-- Text model passes offline evaluation with ≥ 85% accuracy.
-- Backend can load both models and serve similarity scores via a test endpoint.
-- Parser interfaces are defined and unit‑tested.
+- Text model passes offline evaluation with ≥ 85% accuracy. **[VERIFIED BY: Daniel]**
+- Backend can load both models and serve similarity scores via a test endpoint. **[VERIFIED BY: Ilya]**
+- Parser interfaces are defined and unit‑tested. **[VERIFIED BY: Vladimir]**
 
 ---
 
@@ -122,7 +122,7 @@ This document records the **complete strategic trajectory** — from the first b
 
 **Key Deliverables:**
 
-#### Backend & API (Ilya)
+#### Backend & API **[OWNER: Ilya]**
 - Implement `/check‑registration` endpoint (text + logo flow).
 - Implement `/check‑infringement` endpoints (text‑only, logo‑only).
 - Integrate Daniel’s text pipeline and Alexander’s visual pipeline.
@@ -130,19 +130,19 @@ This document records the **complete strategic trajectory** — from the first b
 - Integration tests for all endpoints with a test database.
 - Latency measurement: DB query + scoring must be < 2 minutes.
 
-#### Parsers (Vladimir)
+#### Parsers **[OWNER: Vladimir]**
 - Build parsers for all 11 external sources.
 - Aggregator service that returns top‑200 relevant names from a given query.
 - Ensure offline data freshness (update mechanism without runtime internet access).
 - Integration tests to verify parser robustness and response time.
 
-#### Frontend (Minimal)
+#### Frontend (Minimal) **[OWNER: Ilya (with support from Daria for UI/UX)]**
 - A simple UI that allows users to:
   - Enter a name and see similarity results.
   - Upload a logo and see visual matches.
 - Connect to the backend API.
 
-#### Integration (Whole Team)
+#### Integration **[OWNER: All team]**
 - Docker‑compose the entire system (backend + frontend + models + parsers + DB).
 - End‑to‑end tests for all three use cases (registration check, text infringement, logo infringement).
 - Regression testing on the full labelled dataset after integration.
@@ -153,36 +153,35 @@ This document records the **complete strategic trajectory** — from the first b
 - Integration: Full E2E flow works, albeit without monitoring or performance optimisation.
 
 **Exit Criteria:**
-- Full E2E suite passes.
-- Latency sustained < 2 minutes (measured informally).
-- No critical bugs in core flows.
-- The system can be demonstrated manually.
+- Full E2E suite passes. **[VERIFIED BY: Ilya]**
+- Latency sustained < 2 minutes (measured informally). **[VERIFIED BY: Ilya]**
+- No critical bugs in core flows. **[VERIFIED BY: All team]**
+- The system can be demonstrated manually. **[OWNER: Daria]**
 
 ---
 
 ### MS3 — Observability & Stakeholder Demo (1–28 Jun)
 
-
 **Objective:** Make the system observable, prepare for real‑world use, and deliver a stakeholder demo.
 
 **Key Deliverables:**
 
-#### Observability (Ilya)
+#### Observability **[OWNER: Ilya]**
 - Deploy ELK logging, application logs, APM traces, indices, and retention.
 - Deploy Prometheus and Grafana.
 - Expose unified metrics (request rates, error rates, latency percentiles, model inference times).
 - Provision Grafana dashboards as code.
 
 #### Model Improvements
-- **Text:** Add LaBSE semantic encoder (better multilingual support). Package the model as an installable module.
-- **Visual:** Labelled test evaluation dataset and model fine‑tuning.
-- **Ranking:** Begin work on garbage identification and ranking improvements (carried over to MS4).
+- **Text:** Add LaBSE semantic encoder (better multilingual support). Package the model as an installable module. **[OWNER: Daniel]**
+- **Visual:** Labelled test evaluation dataset and model fine‑tuning. **[OWNER: Alexander]**
+- **Ranking:** Begin work on garbage identification and ranking improvements (carried over to MS4). **[OWNER: Daniel]**
 
-#### Scrapers
+#### Scrapers **[OWNER: Vladimir]**
 - Implement initial Yandex scrapers and webhook integration.
 - Ensure scrapers can run in production mode.
 
-#### Demo Preparation (Daria + Team)
+#### Demo Preparation **[OWNER: Daria + Team]**
 - Groom the backlog and prepare the MoSP presentation.
 - Rehearse the integrated demo (frontend flow, service metrics, dashboards, and model updates).
 
@@ -192,38 +191,37 @@ This document records the **complete strategic trajectory** — from the first b
 - Integration: Full stack deployed on the test stand with monitoring.
 
 **Exit Criteria:**
-- Services are observable on the test stand (logs, traces, metrics, dashboards).
-- Accuracy ≥ 85% on labelled dataset
-- Scraper execution works through the backend.
-- The MoSP presentation is delivered and well received.
-- All planned issues (Sprints 1–3) are closed.
+- Services are observable on the test stand (logs, traces, metrics, dashboards). **[VERIFIED BY: Ilya]**
+- Accuracy ≥ 85% on labelled dataset. **[VERIFIED BY: Daniel, Alexander]**
+- Scraper execution works through the backend. **[VERIFIED BY: Vladimir]**
+- The MoSP presentation is delivered and well received. **[VERIFIED BY: Daria]**
+- All planned issues (Sprints 1–3) are closed. **[VERIFIED BY: Daria]**
 
 ---
 
 ### MS4 — Quality & Performance Readiness (29 Jun – 12 Jul)
-
 
 **Objective:** Shift focus from basic integration to quality, while preparing for load testing.
 
 **Key Deliverables:**
 
 #### Alerting & Hardening
-- Configure service and infrastructure alerting (Prometheus Alertmanager).
-- Improve Yandex scraper resilience (proxy rotation, user‑agent strategies, retries).
-- Add YouTube scraping.
+- Configure service and infrastructure alerting (Prometheus Alertmanager). **[OWNER: Ilya]**
+- Improve Yandex scraper resilience (proxy rotation, user‑agent strategies, retries). **[OWNER: Vladimir]**
+- Add YouTube scraping. **[OWNER: Vladimir]**
 
-#### Model Quality (Text – Daniel)
+#### Model Quality (Text) **[OWNER: Daniel]**
 - **Garbage identification (#17):** analyse false positives, categorise noise, propose filtering rules.
 - **Ranking optimisation (#18):** recalibrate weights to prioritise semantic matches.
 - Target: Precision@10 improvement ≥ 5% on the validation set.
 
-#### Model Quality (Visual – Alexander)
+#### Model Quality (Visual) **[OWNER: Alexander]**
 - **Color analysis (#22):** implement color histogram comparison as an additional feature.
 - **Font analysis:** analyse font datasets for logo similarity.
 - Extend the evaluation dataset with more examples.
 - Target: combined visual score (VGG16 + color) improves accuracy.
 
-#### Load Testing Preparation (Ilya + Daria)
+#### Load Testing Preparation **[OWNER: Ilya + Daria]**
 - Define load‑testing goals, key metrics (#73): RPS, latency percentiles, error rates, resource utilisation.
 - Prepare infrastructure (#74): test environment, monitoring stacks, data seeding.
 - Implement executable load‑test scenarios (#75).
@@ -234,35 +232,34 @@ This document records the **complete strategic trajectory** — from the first b
 - Integration: Quality gates applied; ready for load testing.
 
 **Exit Criteria:**
-- All 13 issues (Sprints 4–5) are closed.
-- The team can launch the documented load‑test scenarios against the prepared environment.
-- The Yandex scraper runs stably with < 5% failure rate.
+- All 13 issues (Sprints 4–5) are closed. **[VERIFIED BY: Daria]**
+- The team can launch the documented load‑test scenarios against the prepared environment. **[VERIFIED BY: Ilya]**
+- The Yandex scraper runs stably with < 5% failure rate. **[VERIFIED BY: Vladimir]**
 
 ---
 
 ### MS5 — Optimisation & Release Readiness (13–26 Jul)
 
-
 **Objective:** Measure baseline performance, optimise models and scraping, and prepare final reporting.
 
 **Key Deliverables:**
 
-#### Performance Validation (Ilya)
+#### Performance Validation **[OWNER: Ilya]**
 - Run baseline load tests (#76) and record metrics.
 - Identify bottlenecks (#77).
 - Make targeted improvements (caching, query optimisation, model batching).
 - Run repeated load tests (#78) and compare results.
 
 #### Model Final Optimisation
-- **Text (#19):** apply final filtering rules, adjust weights, run regression. Target: Precision@10 ≥ 0.85, NDCG@10 ≥ 0.80.
-- **Visual (#26):** extra fine-tuning, combine VGG16 + color with balanced weights. Target: visual similarity accuracy@200 ≥ 0.85.
-- **Garbage sources (#17, completed in Sprint 6):** final analysis and mitigation.
+- **Text (#19):** apply final filtering rules, adjust weights, run regression. Target: Precision@10 ≥ 0.85, NDCG@10 ≥ 0.80. **[OWNER: Daniel]**
+- **Visual (#26):** extra fine-tuning, combine VGG16 + color with balanced weights. Target: visual similarity accuracy@200 ≥ 0.85. **[OWNER: Alexander]**
+- **Garbage sources (#17, completed in Sprint 6):** final analysis and mitigation. **[OWNER: Daniel]**
 
 #### Scraping Improvements
-- Implement Google Books scraping (#83).
-- Improve overall scraping quality (#82) – retry logic, error handling, data validation.
+- Implement Google Books scraping (#83). **[OWNER: Vladimir]**
+- Improve overall scraping quality (#82) – retry logic, error handling, data validation. **[OWNER: Vladimir]**
 
-#### Final Reporting (Daria)
+#### Final Reporting **[OWNER: Daria]**
 - Prepare final presentation and report (#12).
 - Link each strategic result to its GitHub issue, technical artifact, metric, test report, or demonstration evidence.
 - Document what was delivered, what did not fit, and why.
@@ -273,9 +270,9 @@ This document records the **complete strategic trajectory** — from the first b
 - Integration: Production‑ready, measured, and documented.
 
 **Exit Criteria:**
-- All 5 Sprint 7 issues satisfy their Definition of Done by 26 July, or an approved deviation is recorded.
-- Load test results meet defined thresholds (P95 latency < 2 min, success rate > 95%).
-- Final report is complete and archived in the repository.
+- All 5 Sprint 7 issues satisfy their Definition of Done by 26 July, or an approved deviation is recorded. **[VERIFIED BY: Daria]**
+- Load test results meet defined thresholds (P95 latency < 2 min, success rate > 95%). **[VERIFIED BY: Ilya]**
+- Final report is complete and archived in the repository. **[VERIFIED BY: Daria]**
 
 ---
 
@@ -283,12 +280,12 @@ This document records the **complete strategic trajectory** — from the first b
 
 | Phase | Period | Text Model | Visual Model | Integration Status |
 | :--- | :--- | :--- | :--- | :--- |
-| **MS0** | 14 Feb – 2 Mar | Baseline: phonetic + lexical (accuracy ~60%) | Baseline: VGG16 embeddings (accuracy ~55%) | Separate notebooks |
-| **MS1** | 3 Mar – 13 Apr | Preprocessing + 3 similarity types | Fine‑tuning stage 1 + embedding pipeline (accuracy measured) | Components built, separate modules |
-| **MS2** | 14 Apr – 31 May | v1.1 – minor tweaks, packaged module | v1.1 – embedding pipeline optimised | Full E2E integration (Docker, API, frontend) |
-| **MS3** | 1–28 Jun | v1.2 – LaBSE added, re‑calibrated + evaluation formula (accuracy ≥ 85%) | v1.2 – fine‑tuning stage completed | Integrated, observable, demoed |
-| **MS4** | 29 Jun – 12 Jul | v1.3 – garbage filtering + ranking (+5% precision) | v1.3 – color + font analysis | Quality gates applied, load‑test ready |
-| **MS5** | 13–26 Jul | v2.0 – final optimisation (Precision@10 ≥ 0.85) | v2.0 – combined model (accuracy@200 ≥ 0.85) | Production‑ready, measured, documented |
+| **MS0** | 14 Feb – 2 Mar | Baseline: phonetic + lexical (accuracy ~60%) **[OWNER: Daniel]** | Baseline: VGG16 embeddings (accuracy ~55%) **[OWNER: Alexander]** | Separate notebooks |
+| **MS1** | 3 Mar – 13 Apr | Preprocessing + 3 similarity types **[OWNER: Daniel]** | Fine‑tuning stage 1 + embedding pipeline (accuracy measured) **[OWNER: Alexander]** | Components built, separate modules |
+| **MS2** | 14 Apr – 31 May | v1.1 – minor tweaks, packaged module **[OWNER: Daniel]** | v1.1 – embedding pipeline optimised **[OWNER: Alexander]** | Full E2E integration (Docker, API, frontend) **[OWNER: Ilya, Vladimir]** |
+| **MS3** | 1–28 Jun | v1.2 – LaBSE added, re‑calibrated + evaluation formula (accuracy ≥ 85%) **[OWNER: Daniel]** | v1.2 – fine‑tuning stage completed **[OWNER: Alexander]** | Integrated, observable, demoed **[OWNER: Ilya, Daria]** |
+| **MS4** | 29 Jun – 12 Jul | v1.3 – garbage filtering + ranking (+5% precision) **[OWNER: Daniel]** | v1.3 – color + font analysis **[OWNER: Alexander]** | Quality gates applied, load‑test ready **[OWNER: Ilya, Vladimir]** |
+| **MS5** | 13–26 Jul | v2.0 – final optimisation (Precision@10 ≥ 0.85) **[OWNER: Daniel]** | v2.0 – combined model (accuracy@200 ≥ 0.85) **[OWNER: Alexander]** | Production‑ready, measured, documented **[OWNER: Ilya, Daria]** |
 
 ---
 
@@ -337,12 +334,10 @@ The final report (due by 26 July) must trace each strategic result to its GitHub
 
 | Layer | Components |
 | :--- | :--- |
-| **ML Models** | Text similarity (phonetic + semantic + lexical, calibrated, with garbage filtering). Visual similarity (VGG16 + color, fine‑tuned, combined). |
-| **Backend** | FastAPI, PostgreSQL/ClickHouse, Docker, CI/CD (GitHub Actions). |
-| **Parsers** | 11 external sources (Yandex, Google Play, App Store, RAO, MinCulture, YouTube, Google Books, etc.), with resilience and health checks. |
-| **Frontend** | Minimal UI for registration and infringement checks. |
-| **Observability** | ELK + Prometheus + Grafana, application logs, APM traces, alerting. |
-| **Performance** | Load‑test scenarios, baseline and optimised metrics, bottleneck analysis. |
-| **Documentation** | Requirements, architecture, tactical plan, strategic plan, user manual, similarity formula, final report. |
-
----
+| **ML Models** | Text similarity (phonetic + semantic + lexical, calibrated, with garbage filtering). **[OWNER: Daniel]** Visual similarity (VGG16 + color, fine‑tuned, combined). **[OWNER: Alexander]** |
+| **Backend** | FastAPI, PostgreSQL/ClickHouse, Docker, CI/CD (GitHub Actions). **[OWNER: Ilya]** |
+| **Parsers** | 11 external sources (Yandex, Google Play, App Store, RAO, MinCulture, YouTube, Google Books, etc.), with resilience and health checks. **[OWNER: Vladimir]** |
+| **Frontend** | Minimal UI for registration and infringement checks. **[OWNER: Ilya]** |
+| **Observability** | ELK + Prometheus + Grafana, application logs, APM traces, alerting. **[OWNER: Ilya]** |
+| **Performance** | Load‑test scenarios, baseline and optimised metrics, bottleneck analysis. **[OWNER: Ilya, Daria]** |
+| **Documentation** | Requirements, architecture, tactical plan, strategic plan, user manual, similarity formula, final report. **[OWNER: Daria]** |
