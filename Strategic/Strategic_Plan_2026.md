@@ -27,17 +27,17 @@ This document records the **complete strategic trajectory** — from the first b
 
 ---
 
-## 3. Full Milestone Overview
+## 3. Full Milestone Overview (Recalculated by Capacity)
 
-| Phase | Milestone | Period | Key Theme | Planned Effort |
-| :--- | :--- | :--- | :--- | :--- |
-| **Discovery** | **MS0 — Project Kick‑off & Research Baseline** | 14 Feb – 2 Mar | Project setup, baseline models, requirements | 80 h |
-| **Model Development** | **MS1 — Core Model Implementation** | 3 Mar – 13 Apr | Text & visual models built and validated offline | 240 h |
-| **Integration** | **MS2 — First Integrated Prototype** | 14 Apr – 31 May | Backend, API, parsers, and integrated demo | 260 h |
-| **Hardening** | **MS3 — Observability & Stakeholder Demo** | 1–28 Jun | Monitoring, logging, second integration, demo | 287 h |
-| **Optimisation** | **MS4 — Quality & Performance Readiness** | 29 Jun – 12 Jul | Quality extensions, resilient scraping, load‑test readiness | 182 h |
-| **Release** | **MS5 — Optimisation & Release Readiness** | 13–26 Jul | Baseline, optimisations, final reporting | 192 h |
-| **Total** | | **14 Feb – 26 Jul** | | **1,241 h** |
+| Phase | Milestone | Period | Days | Key Theme | Planned Effort |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **Discovery** | **MS0 — Project Kick‑off & Research Baseline** | 14 Feb – 2 Mar | 17 | Project setup, baseline models, requirements | **146 h** |
+| **Model Development** | **MS1 — Core Model Implementation** | 3 Mar – 13 Apr | 42 | Text & visual models built and validated offline | **360 h** |
+| **Integration** | **MS2 — First Integrated Prototype** | 14 Apr – 31 May | 48 | Backend, API, parsers, and integrated demo | **411 h** |
+| **Hardening** | **MS3 — Observability & Stakeholder Demo** | 1–28 Jun | 28 | Monitoring, logging, second integration, demo | **360 h** |
+| **Optimisation** | **MS4 — Quality & Performance Readiness** | 29 Jun – 12 Jul | 14 | Quality extensions, resilient scraping, load‑test readiness | **180 h** |
+| **Release** | **MS5 — Optimisation & Release Readiness** | 13–26 Jul | 14 | Baseline, optimisations, final reporting | **180 h** |
+| **Total** | | **14 Feb – 26 Jul** | **163** | | **1,637 h** |
 
 ---
 
