@@ -137,7 +137,7 @@ This document records the **complete strategic trajectory** — from the first b
 - Integration tests to verify parser robustness and response time.
 
 #### Frontend (Minimal)
-- A simple UI (React or Flask) that allows users to:
+- A simple UI that allows users to:
   - Enter a name and see similarity results.
   - Upload a logo and see visual matches.
 - Connect to the backend API.
